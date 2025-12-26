@@ -20,11 +20,17 @@ def projects():
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
+        try:
         name = request.form["name"]
         email = request.form["email"]
         message = request.form["message"]
         
         send_email(name, email, message)
+        return("Message sent successfully")
+
+except Exception as e:
+print("EMAIL ERROR:", e)
+return "Something went wrong while sending email"
     
     return render_template("contact.html")
 
