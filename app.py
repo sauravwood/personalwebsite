@@ -33,8 +33,11 @@ def send_email(name, email, message):
     sender_password = os.getenv("EMAIL_PASSWORD")
     receiver_email = "saurabhrajaure648@gmail.com"
 
+    if not sender_email or not sender_password:
+        raise Exception("Email credentials not found")
+
     email_message = f"""
-    New Contact Message
+   subject: New Contact Message
 
     Name: {name}
     Email: {email}
@@ -50,7 +53,5 @@ def send_email(name, email, message):
 
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
     app.run() 
     
