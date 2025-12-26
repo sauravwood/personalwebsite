@@ -20,19 +20,19 @@ def projects():
 @app.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
-        try:
-        name = request.form["name"]
-        email = request.form["email"]
-        message = request.form["message"]
+        name = request.form.get("name", "")
+        email = request.form.get("email", "")
+        message = request.form.get("message", "")
         
-        send_email(name, email, message)
-        return("Message sent successfully")
+        try:
+            send_email(name, email, message)
+        return render_template("contact.html", success=True)
 
 except Exception as e:
 print("EMAIL ERROR:", e)
-return "Something went wrong while sending email"
+return render_template("contact.html", error=True)
     
-    return render_template("contact.html")
+return render_template("contact.html")
 
 def send_email(name, email, message):
     sender_email = os.getenv("EMAIL_ADDRESS")
